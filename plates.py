@@ -34,7 +34,7 @@ def tuple_to_name(t):
     ''' Construct a filename from a tuple of values '''
     return path.join('_'.join(t)+'.txt')
 
-def construct_names(base_path,properties):
+def construct_names(base_path,properties,tuple_to_name_fun):
     ''' Take the product of all the dictionarys' values in d, and convert to filenames.
     Inputs:
         - base_path, the base path
@@ -45,12 +45,12 @@ def construct_names(base_path,properties):
             - values: the values of each property in order
             - filename: the corresponding filename
     '''
-    filenames = [path.join(base_path,tuple_to_name(t)) for t in product(*[p.values() for p in properties.values()])]
+    filenames = [path.join(base_path,tuple_to_name_fun(t)) for t in product(*[p.values() for p in properties.values()])]
     values = [t for t in product(*[p.keys() for p in properties.values()])]
     return properties.keys(),zip(values,filenames)
 
-def aggregate_plates(base_path,properties,start=3,end=-3):
-    columns, values_and_filenames = construct_names(base_path,properties)
+def aggregate_plates(base_path,properties,start=3,end=-3,tuple_to_name_fun=tuple_to_name):
+    columns, values_and_filenames = construct_names(base_path,properties,tuple_to_name_fun)
 
     agg = []
     for values,filename in values_and_filenames:
