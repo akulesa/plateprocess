@@ -26,7 +26,7 @@ def read_plate(fname,start=3,end=-3):
 
 def collapse_plate(df,name='Value'):
     temp = df.unstack().reset_index()
-    temp.columns = ['Col','Row','Value']
+    temp.columns = ['Col','Row',name]
     temp['Well']=temp.apply(lambda row: row['Row']+str(row['Col']),axis=1)
     return temp[['Well',name]]
 
