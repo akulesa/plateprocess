@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from collections import OrderedDict
 from itertools import product
+from os import path
 
 
 def read_plate(fname,start=3,end=-3):
@@ -31,7 +32,7 @@ def collapse_plate(df):
 
 def tuple_to_name(t):
     ''' Construct a filename from a tuple of values '''
-    return path.join(t[-1],'_'.join(t[:-1])+'.txt')
+    return path.join('_'.join(t)+'.txt')
 
 def construct_names(base_path,properties):
     ''' Take the product of all the dictionarys' values in d, and convert to filenames.
@@ -46,14 +47,14 @@ def construct_names(base_path,properties):
     '''
     filenames = [path.join(base_path,tuple_to_name(t)) for t in product(*[p.values() for p in properties.values()])]
     values = [t for t in product(*[p.keys() for p in properties.values()])]
-    return d.keys(),zip(values,filenames)
+    return properties.keys(),zip(values,filenames)
 
 def aggregate_plates(base_path,properties,start=3,end=-3):
     columns, values_and_filenames = construct_names(base_path,properties)
 
     agg = []
     for values,filename in values_and_filenames:
-        agg.append(collapse_plate(read_plate(filename,start=3,end=-3)).assign(**dict(zip(columns,values))))
+        agg.append(collapse_plate(read_plate(filename,start=start,end=end)).assign(**dict(zip(columns,values))))
 
     agg = pd.concat(agg).reset_index(drop=True)
     return agg
