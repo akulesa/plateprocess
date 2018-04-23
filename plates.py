@@ -33,11 +33,11 @@ def tuple_to_name(t):
     ''' Construct a filename from a tuple of values '''
     return path.join(t[-1],'_'.join(t[:-1])+'.txt')
 
-def construct_names(base_path,d):
+def construct_names(base_path,properties):
     ''' Take the product of all the dictionarys' values in d, and convert to filenames.
     Inputs:
         - base_path, the base path
-        - d, a collections.OrderedDict
+        - properties, a collections.OrderedDict
     Returns:
         - the order of Properties in tuples
         - a list of tuples (values, filename)
