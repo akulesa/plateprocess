@@ -24,11 +24,11 @@ def read_plate(fname,start=3,end=-3):
     agg.columns = range(1,13)
     return agg
 
-def collapse_plate(df):
+def collapse_plate(df,name='Value'):
     temp = df.unstack().reset_index()
     temp.columns = ['Col','Row','Value']
     temp['Well']=temp.apply(lambda row: row['Row']+str(row['Col']),axis=1)
-    return temp[['Well','Value']]
+    return temp[['Well',name]]
 
 def tuple_to_name(t):
     ''' Construct a filename from a tuple of values '''
