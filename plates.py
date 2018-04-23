@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 def read_plate(fname,start=3,end=-3):
 
     if fname[-4:] != '.txt':
