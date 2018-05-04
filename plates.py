@@ -63,7 +63,10 @@ def aggregate_plates(base_path,properties,tuple_to_name_fun=tuple_to_name,**kwar
 
     agg = []
     for values,filename in values_and_filenames:
-        agg.append(collapse_plate(read_plate(filename,**kwargs)).assign(**dict(zip(columns,values))))
+        if path.isfile(filename):
+            agg.append(collapse_plate(read_plate(filename,**kwargs)).assign(**dict(zip(columns,values))))
+        else:
+            print filename, 'not found.'
 
     agg = pd.concat(agg).reset_index(drop=True)
     return agg
